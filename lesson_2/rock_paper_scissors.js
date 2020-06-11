@@ -6,6 +6,11 @@ let gameType;
 let validChoices;
 let userScore = 0;
 let computerScore = 0;
+const ROCK = 'rock';
+const PAPER = 'paper';
+const SCISSORS = 'scissors';
+const LIZARD = 'lizard';
+const SPOCK = 'spock';
 const CHOICE_LOSES_TO_ROCK = ['scissors', 'lizard'];
 const CHOICE_LOSES_TO_PAPER = ['rock', 'spock'];
 const CHOICE_LOSES_TO_SCISSORS = ['paper', 'lizard'];
@@ -17,21 +22,48 @@ const CHOICE_BEATS_SCISSORS = ['rock', 'spock'];
 const CHOICE_BEATS_LIZARD = ['rock', 'scissors'];
 const CHOICE_BEATS_SPOCK = ['lizard', 'paper'];
 
-prompt('Which game type do you prefer?');
-prompt('Type 1 for Rock Paper Scissors - The original ');
-prompt('or type 2 for the Rock Paper Scissor Spock Lizard variation!');
 
-gameType = readline.question();
+function chooseGameType() {
+  prompt('Which game type do you prefer?');
+  prompt('Type 1 for Rock Paper Scissors - The original ');
+  prompt('or type 2 for the Rock Paper Scissor Spock Lizard variation!');
+  gameType = readline.question();
+  switch (gameType) {
+    case '1':
+      validChoices = ['rock', 'paper', 'scissors'];
+      break;
+    case '2':
+      validChoices = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
+      break;
+    default:
+      prompt('You did not choose a Valid Game Type!');
+      chooseGameType();
+      break;
+  }
+}
 
-switch (gameType) {
-  case '1':
-    validChoices = ['rock', 'paper', 'scissors'];
-    break;
-  case '2':
-    validChoices = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
-    break;
-  default:
-    validChoices = ['rock', 'paper', 'scissors'];
+function checkIfUserWinsRound (userChoice, computerChoice) {
+  if ((userChoice === ROCK && CHOICE_LOSES_TO_ROCK.includes(computerChoice)) ||
+    (userChoice === PAPER && CHOICE_LOSES_TO_PAPER.includes(computerChoice)) ||
+    (userChoice === SCISSORS && CHOICE_LOSES_TO_SCISSORS.includes(computerChoice)) ||
+    (userChoice === LIZARD && CHOICE_LOSES_TO_LIZARD.includes(computerChoice)) ||
+    (userChoice === SPOCK && CHOICE_LOSES_TO_SPOCK.includes(computerChoice))) {
+    prompt('You win this round!');
+    prompt(`Your choice was ${userChoice} and computer choice was ${computerChoice}.`);
+    addPointUserScore();
+  }
+}
+
+function checkIfComputerWinsRound (userChoice, computerChoice) {
+  if ((userChoice === ROCK && CHOICE_BEATS_ROCK.includes(computerChoice)) ||
+      (userChoice === PAPER && CHOICE_BEATS_PAPER.includes(computerChoice)) ||
+      (userChoice === SCISSORS && CHOICE_BEATS_SCISSORS.includes(computerChoice)) ||
+      (userChoice === LIZARD && CHOICE_BEATS_LIZARD.includes(computerChoice)) ||
+      (userChoice === SPOCK && CHOICE_BEATS_SPOCK.includes(computerChoice))) {
+    prompt('Computer wins!');
+    prompt(`Your choice was ${userChoice} and computer choice was ${computerChoice}.`);
+    addPointComputerScore();
+  }
 }
 
 function addPointUserScore () {
@@ -57,40 +89,69 @@ function addPointComputerScore () {
 }
 
 function displayWinner(userChoice, computerChoice) {
-  
-  if ((userChoice === 'rock' && CHOICE_LOSES_TO_ROCK.includes(computerChoice)) ||
-    (userChoice === 'paper' && CHOICE_LOSES_TO_PAPER.includes(computerChoice)) ||
-    (userChoice === 'scissors' && CHOICE_LOSES_TO_SCISSORS.includes(computerChoice)) ||
-    (userChoice === 'lizard' && CHOICE_LOSES_TO_LIZARD.includes(computerChoice)) ||
-    (userChoice === 'spock' && CHOICE_LOSES_TO_SPOCK.includes(computerChoice))) {
-    prompt('You win this round!');
+  if (userChoice === computerChoice) {
     prompt(`Your choice was ${userChoice} and computer choice was ${computerChoice}.`);
-    prompt('You win this round!');
-    addPointUserScore();
-  } else if ((userChoice === 'rock' && CHOICE_BEATS_ROCK.includes(computerChoice)) ||
-             (userChoice === 'paper' && CHOICE_BEATS_PAPER.includes(computerChoice)) ||
-             (userChoice === 'scissors' && CHOICE_BEATS_SCISSORS.includes(computerChoice)) ||
-             (userChoice === 'lizard' && CHOICE_BEATS_LIZARD.includes(computerChoice)) ||
-             (userChoice === 'spock' && CHOICE_BEATS_SPOCK.includes(computerChoice))) {
-    prompt('Computer wins!');
-    prompt(`Your choice was ${userChoice} and computer choice was ${computerChoice}.`);
-    addPointComputerScore();
-  } else {
     prompt("It's a tie");
     prompt(`The score is currently - User: ${userScore}, Computer: ${computerScore}`);
   }
+  checkIfUserWinsRound(userChoice, computerChoice);
+  checkIfComputerWinsRound(userChoice, computerChoice);
 }
 
+function userChooseScissorsOrSpock() {
+  prompt('You only put \'s\' - Type 1 for Scissors or 2 for Spock');
+  let selection = readline.question();
+  if (selection !== '1' || selection !== '2') {
+    prompt('Invalid input - Type 1 for Scissors or 2 for Spock');
+  }
+  switch (selection) {
+    case '1':
+      userChoice = 'scissors';
+      break;
+    case '2':
+      userChoice = 'spock';
+      break;
+    default:
+      userChoice = 'scissors';
+      break;
+  }
+}
+
+// I purposely left the chooseGameType in so it can change
+// in the middle of the race to 5 wins.
+
 while (true) {
+  chooseGameType();
   prompt(`Make your selection - ${validChoices.join(', ')}?`);
-  userChoice = readline.question();
+  userChoice = readline.question().toLowerCase();
+  switch (userChoice) {
+    case 'r':
+      userChoice = 'rock';
+      break;
+    case 'p':
+      userChoice = 'paper';
+      break;
+    case 'l':
+      userChoice = 'lizard';
+      break;
+    case 's':
+      if (gameType === '2') {
+        userChooseScissorsOrSpock();
+      } else {
+        userChoice = 'spock';
+      }
+      break;
+    default:
+      userChoice = 'rock';
+  }
+  console.log(userChoice);
 
   while (!validChoices.includes(userChoice)) {
     prompt(`Not Valid - Make a valid selection - ${validChoices.join(', ')}?`);
     userChoice = readline.question();
   }
   let randomIndex = Math.floor(Math.random() * validChoices.length);
-  computerChoice = validChoices[randomIndex];
+  computerChoice = validChoices[randomIndex].toLowerCase();
 
   displayWinner(userChoice, computerChoice);
   if (userScore === 5 || computerScore === 5) {
@@ -110,20 +171,3 @@ while (true) {
   }
   if (answer[0] !== 'y') break;
 }
-
-// Test coding below
-
-// switch (userChoice) {
-//   case 'rock':
-//     CHOICE_LOSES_TO_ROCK.includes(computerChoice);
-//   case 'paper':
-//     CHOICE_LOSES_TO_PAPER.includes(computerChoice);
-//   case 'scissors': 
-//     CHOICE_LOSES_TO_SCISSORS.includes(computerChoice);
-//   case 'lizard':
-//     CHOICE_LOSES_TO_LIZARD.includes(computerChoice);
-//   case 'spock':
-//     CHOICE_LOSES_TO_SPOCK.includes(computerChoice);
-//   break;
-// }
-

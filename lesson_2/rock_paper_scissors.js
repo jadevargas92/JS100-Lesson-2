@@ -24,7 +24,7 @@ const CHOICE_BEATS_SPOCK = ['lizard', 'paper'];
 
 
 function chooseGameType() {
-  prompt('Which game type do you prefer?');
+  prompt('Which game type do you prefer for this round?');
   prompt('Type 1 for Rock Paper Scissors - The original ');
   prompt('or type 2 for the Rock Paper Scissor Spock Lizard variation!');
   gameType = readline.question();
@@ -101,9 +101,7 @@ function displayWinner(userChoice, computerChoice) {
 function userChooseScissorsOrSpock() {
   prompt('You only put \'s\' - Type 1 for Scissors or 2 for Spock');
   let selection = readline.question();
-  if (selection !== '1' || selection !== '2') {
-    prompt('Invalid input - Type 1 for Scissors or 2 for Spock');
-  }
+  console.log(typeof selection);
   switch (selection) {
     case '1':
       userChoice = 'scissors';
@@ -112,14 +110,18 @@ function userChooseScissorsOrSpock() {
       userChoice = 'spock';
       break;
     default:
-      userChoice = 'scissors';
+    prompt('Invalid input!');
+      userChooseScissorsOrSpock();
       break;
   }
 }
 
 // I purposely left the chooseGameType in so it can change
 // in the middle of the race to 5 wins.
-
+prompt('Welcome to ROCK PAPER SCISSORS!')
+prompt('It is you vs. the Computer.')
+prompt('First to 5 victories is the Grand Winner!')
+prompt(' ---------------------------------- ')
 while (true) {
   chooseGameType();
   prompt(`Make your selection - ${validChoices.join(', ')}?`);
@@ -138,13 +140,12 @@ while (true) {
       if (gameType === '2') {
         userChooseScissorsOrSpock();
       } else {
-        userChoice = 'spock';
+        userChoice = 'scissors';
       }
       break;
     default:
       userChoice = 'rock';
   }
-  console.log(userChoice);
 
   while (!validChoices.includes(userChoice)) {
     prompt(`Not Valid - Make a valid selection - ${validChoices.join(', ')}?`);

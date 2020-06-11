@@ -101,7 +101,6 @@ function displayWinner(userChoice, computerChoice) {
 function userChooseScissorsOrSpock() {
   prompt('You only put \'s\' - Type 1 for Scissors or 2 for Spock');
   let selection = readline.question();
-  console.log(typeof selection);
   switch (selection) {
     case '1':
       userChoice = 'scissors';
@@ -110,7 +109,7 @@ function userChooseScissorsOrSpock() {
       userChoice = 'spock';
       break;
     default:
-    prompt('Invalid input!');
+      prompt('Invalid input!');
       userChooseScissorsOrSpock();
       break;
   }
@@ -118,10 +117,10 @@ function userChooseScissorsOrSpock() {
 
 // I purposely left the chooseGameType in so it can change
 // in the middle of the race to 5 wins.
-prompt('Welcome to ROCK PAPER SCISSORS!')
-prompt('It is you vs. the Computer.')
-prompt('First to 5 victories is the Grand Winner!')
-prompt(' ---------------------------------- ')
+prompt('Welcome to ROCK PAPER SCISSORS!');
+prompt('It is you vs. the Computer.');
+prompt('First to 5 victories is the Grand Winner!');
+prompt(' ---------------------------------- ');
 while (true) {
   chooseGameType();
   prompt(`Make your selection - ${validChoices.join(', ')}?`);

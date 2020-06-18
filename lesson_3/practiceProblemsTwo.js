@@ -12,7 +12,7 @@ console.log(advice2);
 let numbers = [1,2,3,4,5]
 numbers.reverse();
 console.log(numbers);
-numbers.splice(2,1);
+numbers.splice(2, 1);
 console.log(numbers)
 // .sort sorts ascending order unless given a compare function.
 // so below, it is given the parameters, and checking if num
@@ -56,3 +56,12 @@ let famousWords = "seven years ago...";
 let firstFamousWords = 'Four score and '
 
 console.log(firstFamousWords.concat('', famousWords));
+
+// JUST LEARNED THAT [...someVariable, 1,2,3] RETURNS EVERYTHING IN SOME VARIABLE. 
+// THE THREE DOTS ... ARE WHAT PUSHES EVERYTHING INTO SOME VARIABLE!
+
+let flintstones = ["Fred", "Wilma"];
+flintstones.push(["Barney", "Betty"]);
+flintstones.push(["Bambam", "Pebbles"]);
+
+console.log([].concat(flintstones));

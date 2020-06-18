@@ -78,3 +78,5 @@ let advice = "Few things in life are as important as house training your pet din
 // instead of doing slice() and starting at 0 and counting all the way to 39... 
 //you can do slice(0, advice.indexOf('house')) to get 39
 advice = advice.slice(0, advice.indexOf('house'));
+
+console.log(advice);

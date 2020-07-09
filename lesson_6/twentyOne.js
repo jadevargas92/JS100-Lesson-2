@@ -6,7 +6,7 @@ let dealerTotal = 0;
 let playerGamesWon = 0;
 let dealerGamesWon = 0;
 
-// What the game is played to. 
+// What the game is played to
 const scoreLimit = 21;
 const dealerHitOrStayValue = 17;
 
@@ -27,6 +27,7 @@ function clearHandsAndTotals() {
 }
 
 function initializeDeck () {
+  prompt('We are playing Twenty-One! Best of 5 wins!');
   for (let suit in suits) {
     for (let value in values) {
       deck.push([values[value], suits[suit]]);
@@ -180,10 +181,10 @@ function bestOfFive() {
     prompt(`Congrats! You won Best of 5`);
     return true;
   } else if (dealerGamesWon === 5) {
-   prompt('You lost the Best of 5- Dealer win!');
-   return true;
+    prompt('You lost the Best of 5- Dealer win!');
+    return true;
   } else {
-  return false;
+    return false;
   }
 }
 
